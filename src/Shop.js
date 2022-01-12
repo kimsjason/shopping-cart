@@ -1,25 +1,25 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
+import "./styles/Shop.css";
 
 const Shop = () => {
-  const [products, setProducts] = useState([]);
+  const [listings, setListings] = useState([]);
 
   // fetch Etsy api data once when component mounts and store in state
   useEffect(() => {
-    fetchProducts();
+    fetchListings();
   }, []);
 
-  const fetchProducts = async () => {
+  const fetchListings = async () => {
     const apikey = "vv3qn3iae48c08suyjn5vnvt";
     const response = await fetch(
-      `https://cors-anywhere.herokuapp.com/https://openapi.etsy.com/v3/application/listings/active?client_id=${apikey}&keywords=variegated_monstera`
+      `https://cors-anywhere.herokuapp.com/https://openapi.etsy.com/v2/listings/active?api_key=${apikey}&keywords=variegated_monstera&min_price=100&includes=Images`
     );
 
-    console.log(response);
     if (response.ok) {
       const data = await response.json();
       const listings = await data.results;
-      setProducts(listings);
+      setListings(listings);
       console.log(listings);
     } else {
       console.log("oops");
@@ -28,22 +28,29 @@ const Shop = () => {
 
   return (
     <div>
-      <h2>Shop</h2>
-      <div className="products">
-        {products.map((product) => {
+      <nav>
+        <h2>Shop</h2>
+        <div className="nav-right">
+          <div className="shopping-cart">Shopping Cart</div>
+        </div>
+      </nav>
+      <div className="listings">
+        {listings.map((listing) => {
           return (
             <div
-              id={product.listing_id}
-              key={product.listing_id}
+              id={listing.listing_id}
+              key={listing.listing_id}
               className="listing"
             >
-              <div className="title">{product.title}</div>
-              <div className="price">
-                ${product.price.amount / product.price.divisor}
+              <img src={listing.Images[0].url_fullxfull} alt=" " />
+              <div className="listing-content">
+                <div className="title">{listing.title}</div>
+                <div className="price">${listing.price}</div>
+                <a className="url" href={listing.url}>
+                  Link
+                </a>
+                <a href="#">Add to Cart</a>
               </div>
-              <a className="url" href={product.url}>
-                {product.url}
-              </a>
             </div>
           );
         })}
