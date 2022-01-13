@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
-import "./styles/Shop.css";
+import "../styles/Shop.css";
 
 const Shop = () => {
   const [listings, setListings] = useState([]);
@@ -20,7 +20,6 @@ const Shop = () => {
       const data = await response.json();
       const listings = await data.results;
       setListings(listings);
-      console.log(listings);
     } else {
       console.log("oops");
     }
@@ -28,12 +27,6 @@ const Shop = () => {
 
   return (
     <div>
-      <nav>
-        <h2>Shop</h2>
-        <div className="nav-right">
-          <div className="shopping-cart">Shopping Cart</div>
-        </div>
-      </nav>
       <div className="listings">
         {listings.map((listing) => {
           return (
