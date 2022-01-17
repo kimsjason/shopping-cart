@@ -9,6 +9,10 @@ const ShoppingCart = (props) => {
     props.onAddItemQuantity(e);
   };
 
+  const onUpdateQuantity = (e) => {
+    props.onUpdateQuantity(e);
+  };
+
   console.log(props.cart);
   return (
     <div className="shopping-cart hidden">
@@ -30,7 +34,7 @@ const ShoppingCart = (props) => {
                   type="text"
                   className="current-quantity"
                   value={item.quantity}
-                  onChange={() => {}}
+                  onChange={onUpdateQuantity}
                 />
                 <button className="add-quantity" onClick={onAddItemQuantity}>
                   +

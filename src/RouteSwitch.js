@@ -92,6 +92,28 @@ const RouteSwitch = () => {
     setCart(updatedCart);
   };
 
+  const handleUpdateQuantity = (e) => {
+    const item = e.target.parentElement.parentElement;
+    const title = item.querySelector(".title").textContent;
+    const quantity = e.target.value;
+
+    const updatedCart = () => {
+      return cart.map((item) => {
+        if (item.title === title) {
+          return {
+            title: item.title,
+            price: item.price,
+            quantity: quantity,
+          };
+        }
+        return item;
+      });
+    };
+
+    setCart(updatedCart);
+    console.log("updating");
+  };
+
   return (
     <BrowserRouter>
       <div className="main">
@@ -108,6 +130,7 @@ const RouteSwitch = () => {
         cart={cart}
         onSubtractItemQuantity={handleSubtractItemQuantity}
         onAddItemQuantity={handleAddItemQuantity}
+        onUpdateQuantity={handleUpdateQuantity}
       />
     </BrowserRouter>
   );
