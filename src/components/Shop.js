@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import "../styles/Shop.css";
 
-const Shop = () => {
+const Shop = (props) => {
   const [listings, setListings] = useState([]);
 
   // fetch Etsy api data once when component mounts and store in state
@@ -25,6 +25,10 @@ const Shop = () => {
     }
   };
 
+  const onAddItem = (e) => {
+    props.onAddItem(e);
+  };
+
   return (
     <div>
       <div className="listings">
@@ -42,7 +46,9 @@ const Shop = () => {
                 <a className="url" href={listing.url}>
                   Link
                 </a>
-                <a href="#">Add to Cart</a>
+                <a href="#" onClick={onAddItem}>
+                  Add to Cart
+                </a>
               </div>
             </div>
           );
