@@ -44,10 +44,26 @@ const ShoppingCart = (props) => {
           );
         })}
       </div>
-      <div className="subtotal">Subtotal</div>
-      <div className="shipping">Shipping</div>
-      <div className="tax">Tax</div>
-      <div className="total">Order Total</div>
+      <div className="subtotal">
+        Subtotal:
+        <div className="amount">
+          $
+          {parseFloat(
+            props.cart.reduce((previousValue, currentItem) => {
+              return previousValue + currentItem.price * currentItem.quantity;
+            }, 0)
+          ).toFixed(2)}
+        </div>
+      </div>
+      <div className="shipping">
+        Shipping: <div className="amount"> TBD</div>
+      </div>
+      <div className="tax">
+        Tax: <div className="amount">TBD</div>
+      </div>
+      <div className="total">
+        Order Total: <div className="amount"></div>
+      </div>
       <button className="checkout">Checkout</button>
     </div>
   );
