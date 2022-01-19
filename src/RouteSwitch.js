@@ -11,13 +11,14 @@ const RouteSwitch = () => {
 
   const handleAddItem = (e) => {
     const listingContent = e.target.parentElement;
+    const image = listingContent.previousSibling.src;
     const title = listingContent.querySelector(".title").textContent;
-    const price = listingContent.querySelector(".price").textContent;
+    const price = listingContent.querySelector(".price").textContent.slice(1);
 
     const updatedCart = () => {
       // if cart empty, add first item
       if (cart.length === 0) {
-        return [{ title: title, price: price, quantity: 1 }];
+        return [{ title: title, price: price, quantity: 1, image: image }];
       }
       // add quantity to existing cart item
       else if (cart.some((item) => item.title === title)) {
@@ -26,7 +27,8 @@ const RouteSwitch = () => {
             return {
               title: item.title,
               price: item.price,
-              quantity: item.quantity + 1,
+              quantity: parseInt(item.quantity) + 1,
+              image: image,
             };
           }
           return item;
@@ -34,7 +36,10 @@ const RouteSwitch = () => {
       }
       // add new item
       else {
-        return [...cart, { title: title, price: price, quantity: 1 }];
+        return [
+          ...cart,
+          { title: title, price: price, quantity: 1, image: image },
+        ];
       }
     };
     setCart(updatedCart);
@@ -42,6 +47,7 @@ const RouteSwitch = () => {
 
   const handleSubtractItemQuantity = (e) => {
     const item = e.target.parentElement.parentElement;
+    const image = item.previousSibling.src;
     const title = item.querySelector(".title").textContent;
     const currentQuantity = item.querySelector(".current-quantity").value;
     console.log(currentQuantity);
@@ -60,7 +66,8 @@ const RouteSwitch = () => {
           return {
             title: item.title,
             price: item.price,
-            quantity: item.quantity - 1,
+            quantity: parseInt(item.quantity) - 1,
+            image: image,
           };
         }
         return item;
@@ -74,6 +81,7 @@ const RouteSwitch = () => {
 
   const handleAddItemQuantity = (e) => {
     const item = e.target.parentElement.parentElement;
+    const image = item.previousSibling.src;
     const title = item.querySelector(".title").textContent;
 
     const updatedCart = () => {
@@ -82,7 +90,8 @@ const RouteSwitch = () => {
           return {
             title: item.title,
             price: item.price,
-            quantity: item.quantity + 1,
+            quantity: parseInt(item.quantity) + 1,
+            image: image,
           };
         }
         return item;
@@ -94,6 +103,7 @@ const RouteSwitch = () => {
 
   const handleUpdateQuantity = (e) => {
     const item = e.target.parentElement.parentElement;
+    const image = item.previousSibling.src;
     const title = item.querySelector(".title").textContent;
     const quantity = e.target.value;
 
@@ -103,7 +113,8 @@ const RouteSwitch = () => {
           return {
             title: item.title,
             price: item.price,
-            quantity: quantity,
+            quantity: parseInt(quantity),
+            image: image,
           };
         }
         return item;
