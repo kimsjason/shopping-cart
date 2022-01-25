@@ -1,44 +1,82 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Nav from "./components/Nav";
 import Home from "./components/Home";
 import Shop from "./components/Shop";
+import ListingDetails from "./components/ListingDetails";
 import ShoppingCart from "./components/ShoppingCart";
 import "./styles/RouteSwitch.css";
 
 const RouteSwitch = () => {
   const [cart, setCart] = useState([]);
+  const [listings, setListings] = useState([]);
+
+  // fetch Etsy api data once when component mounts and store in state
+  useEffect(() => {
+    fetchListings();
+  }, []);
+
+  const fetchListings = async () => {
+    const apikey = "vv3qn3iae48c08suyjn5vnvt";
+    const response = await fetch(
+      `https://cors-anywhere.herokuapp.com/https://openapi.etsy.com/v2/listings/active?api_key=${apikey}&keywords=variegated_monstera&min_price=100&includes=Images`
+    );
+
+    if (response.ok) {
+      const data = await response.json();
+      const listings = await data.results;
+      console.log(listings);
+      setListings(listings);
+    } else {
+      console.log("oops");
+    }
+  };
 
   const handleAddItem = (e) => {
-    const listingContent = e.target.parentElement;
-    const image = listingContent.previousSibling.src;
-    const title = listingContent.querySelector(".title").textContent;
-    const price = listingContent.querySelector(".price").textContent.slice(1);
+    const listingID = parseInt(e.target.closest(".listing").id);
+    const [listing] = listings.filter(
+      (listing) => listing.listing_id === listingID
+    );
 
     const updatedCart = () => {
       // if cart empty, add first item
       if (cart.length === 0) {
-        return [{ title: title, price: price, quantity: 1, image: image }];
+        return [
+          {
+            id: listing.listing_id,
+            title: listing.title,
+            price: listing.price,
+            quantity: 1,
+            images: listing.Images,
+          },
+        ];
       }
-      // add quantity to existing cart item
-      else if (cart.some((item) => item.title === title)) {
+      // if existing item in cart, add +1 quantity
+      else if (cart.some((item) => item.title === listing.title)) {
         return cart.map((item) => {
-          if (item.title === title) {
+          if (item.title === listing.title) {
             return {
-              title: item.title,
-              price: item.price,
+              id: listing.listing_id,
+              title: listing.title,
+              price: listing.price,
               quantity: parseInt(item.quantity) + 1,
-              image: image,
+              images: listing.Images,
             };
           }
           return item;
         });
       }
-      // add new item
+      // if items in cart, add new item
       else {
         return [
           ...cart,
-          { title: title, price: price, quantity: 1, image: image },
+          {
+            id: listing.listing_id,
+            title: listing.title,
+            price: listing.price,
+            quantity: 1,
+            images: listing.Images,
+          },
         ];
       }
     };
@@ -46,15 +84,13 @@ const RouteSwitch = () => {
   };
 
   const handleSubtractItemQuantity = (e) => {
-    const item = e.target.parentElement.parentElement;
-    const image = item.previousSibling.src;
-    const title = item.querySelector(".title").textContent;
-    const currentQuantity = item.querySelector(".current-quantity").value;
-    console.log(currentQuantity);
+    const listingID = parseInt(e.target.closest(".item").id);
+    const [listing] = cart.filter((listing) => listing.id === listingID);
+
     const updatedCart = () => {
-      if (currentQuantity == 1) {
+      if (listing.quantity === 1) {
         return cart.filter((item) => {
-          if (item.title === title) {
+          if (item.title === listing.title) {
             return undefined;
           } else {
             return item;
@@ -62,12 +98,13 @@ const RouteSwitch = () => {
         });
       }
       return cart.map((item) => {
-        if (item.title === title) {
+        if (item.title === listing.title) {
           return {
-            title: item.title,
-            price: item.price,
+            id: listing.id,
+            title: listing.title,
+            price: listing.price,
             quantity: parseInt(item.quantity) - 1,
-            image: image,
+            images: listing.images,
           };
         }
         return item;
@@ -80,18 +117,18 @@ const RouteSwitch = () => {
   };
 
   const handleAddItemQuantity = (e) => {
-    const item = e.target.parentElement.parentElement;
-    const image = item.previousSibling.src;
-    const title = item.querySelector(".title").textContent;
+    const listingID = parseInt(e.target.closest(".item").id);
+    const [listing] = cart.filter((listing) => listing.id === listingID);
 
     const updatedCart = () => {
       return cart.map((item) => {
-        if (item.title === title) {
+        if (item.title === listing.title) {
           return {
-            title: item.title,
-            price: item.price,
+            id: listing.id,
+            title: listing.title,
+            price: listing.price,
             quantity: parseInt(item.quantity) + 1,
-            image: image,
+            images: listing.images,
           };
         }
         return item;
@@ -102,19 +139,19 @@ const RouteSwitch = () => {
   };
 
   const handleUpdateQuantity = (e) => {
-    const item = e.target.parentElement.parentElement;
-    const image = item.previousSibling.src;
-    const title = item.querySelector(".title").textContent;
+    const listingID = parseInt(e.target.closest(".item").id);
+    const [listing] = cart.filter((listing) => listing.id === listingID);
     const quantity = e.target.value;
 
     const updatedCart = () => {
       return cart.map((item) => {
-        if (item.title === title) {
+        if (item.title === listing.title) {
           return {
-            title: item.title,
-            price: item.price,
+            id: listing.id,
+            title: listing.title,
+            price: listing.price,
             quantity: parseInt(quantity),
-            image: image,
+            images: listing.images,
           };
         }
         return item;
@@ -122,7 +159,6 @@ const RouteSwitch = () => {
     };
 
     setCart(updatedCart);
-    console.log("updating");
   };
 
   return (
@@ -130,11 +166,15 @@ const RouteSwitch = () => {
       <div className="main">
         <Nav />
         <Routes>
-          <Route path="/" element={<Home />}></Route>
+          <Route path="/" element={<Home />} />
           <Route
             path="/shop"
-            element={<Shop onAddItem={handleAddItem} />}
-          ></Route>
+            element={<Shop onAddItem={handleAddItem} listings={listings} />}
+          />
+          <Route
+            path="/shop/:listing_id"
+            element={<ListingDetails onAddItem={handleAddItem} />}
+          />
         </Routes>
       </div>
       <ShoppingCart
