@@ -13,18 +13,18 @@ const ShoppingCart = (props) => {
     props.onUpdateQuantity(e);
   };
 
-  console.log(props.cart);
   return (
     <div className="sticky-wrapper">
       <div className="shopping-cart hidden">
         <h2 className="shopping-cart-header">My Cart</h2>
         <div className="cart-items">
           {props.cart.map((item) => {
+            console.log(item);
             return (
-              <div className="item">
+              <div className="item" key={item.id} id={item.id}>
                 <img
                   className="listing-image"
-                  src={item.image}
+                  src={item.images[0].url_fullxfull}
                   alt="Etsy listing"
                 />
                 <div className="item-info">
@@ -57,7 +57,7 @@ const ShoppingCart = (props) => {
         </div>
         <div className="order-value">
           <div className="subtotal">
-            <div classNAme="subtotal-header">Subtotal:</div>
+            <div className="subtotal-header">Subtotal:</div>
             <div className="amount">
               $
               {parseFloat(
