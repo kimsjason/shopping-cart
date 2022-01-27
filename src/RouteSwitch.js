@@ -10,6 +10,7 @@ import "./styles/RouteSwitch.css";
 const RouteSwitch = () => {
   const [cart, setCart] = useState([]);
   const [listings, setListings] = useState([]);
+  const [wishlist, setWishlist] = useState([]);
 
   // fetch Etsy api data once when component mounts and store in state
   useEffect(() => {
@@ -25,7 +26,6 @@ const RouteSwitch = () => {
     if (response.ok) {
       const data = await response.json();
       const listings = await data.results;
-      console.log(listings);
       setListings(listings);
     } else {
       console.log("oops");
@@ -161,15 +161,133 @@ const RouteSwitch = () => {
     setCart(updatedCart);
   };
 
+  const handleRemoveItem = (e) => {
+    const listingID = parseInt(e.target.closest(".item").id);
+    const [listing] = listings.filter(
+      (listing) => listing.listing_id === listingID
+    );
+
+    const updatedCart = () => {
+      return cart.filter((item) => {
+        if (item.title === listing.title) {
+          return undefined;
+        } else {
+          return item;
+        }
+      });
+    };
+
+    setCart(updatedCart);
+  };
+
+  const handleSortLowtoHigh = () => {
+    const listingsCopy = [...listings];
+    const compare = (a, b) => {
+      a = parseInt(a.price);
+      b = parseInt(b.price);
+      if (a > b) {
+        return 1;
+      }
+      if (a < b) {
+        return -1;
+      }
+      return 0;
+    };
+    const sortedListings = listingsCopy.sort(compare);
+    setListings(sortedListings);
+  };
+
+  const handleSortHightoLow = () => {
+    const listingsCopy = [...listings];
+    const compare = (a, b) => {
+      a = parseInt(a.price);
+      b = parseInt(b.price);
+      if (a > b) {
+        return -1;
+      }
+      if (a < b) {
+        return 1;
+      }
+      return 0;
+    };
+    const sortedListings = listingsCopy.sort(compare);
+    setListings(sortedListings);
+  };
+
+  const handleSortAtoZ = () => {
+    const listingsCopy = [...listings];
+    const compare = (a, b) => {
+      if (a.title > b.title) {
+        return 1;
+      }
+      if (a.title < b.title) {
+        return -1;
+      }
+      return 0;
+    };
+    const sortedListings = listingsCopy.sort(compare);
+    setListings(sortedListings);
+  };
+
+  const handleSortZtoA = () => {
+    const listingsCopy = [...listings];
+    const compare = (a, b) => {
+      if (a.title > b.title) {
+        return -1;
+      }
+      if (a.title < b.title) {
+        return 1;
+      }
+      return 0;
+    };
+    const sortedListings = listingsCopy.sort(compare);
+    setListings(sortedListings);
+  };
+
+  const handleClickFavorite = (e) => {
+    const listingID = parseInt(e.target.closest(".listing").id);
+    const [listing] = listings.filter(
+      (listing) => listing.listing_id === listingID
+    );
+
+    const wishlistCopy = [...wishlist];
+    wishlistCopy.push(listing);
+
+    setWishlist(wishlistCopy);
+    console.log(wishlist);
+  };
+
+  const handleUnclickFavorite = (e) => {
+    const listingID = parseInt(e.target.closest(".listing").id);
+
+    const updatedWishlist = () => {
+      return wishlist.filter((item) => {
+        return item.listing_id !== listingID;
+      });
+    };
+
+    setWishlist(updatedWishlist);
+  };
+
   return (
     <BrowserRouter>
       <div className="main">
-        <Nav />
+        <Nav cart={cart} />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route
             path="/shop"
-            element={<Shop onAddItem={handleAddItem} listings={listings} />}
+            element={
+              <Shop
+                listings={listings}
+                onSortLowtoHigh={handleSortLowtoHigh}
+                onSortHightoLow={handleSortHightoLow}
+                onSortAtoZ={handleSortAtoZ}
+                onSortZtoA={handleSortZtoA}
+                onClickFavorite={handleClickFavorite}
+                onUnclickFavorite={handleUnclickFavorite}
+              />
+            }
           />
           <Route
             path="/shop/:listing_id"
@@ -182,6 +300,7 @@ const RouteSwitch = () => {
         onSubtractItemQuantity={handleSubtractItemQuantity}
         onAddItemQuantity={handleAddItemQuantity}
         onUpdateQuantity={handleUpdateQuantity}
+        onRemoveItem={handleRemoveItem}
       />
     </BrowserRouter>
   );
