@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router";
 import "../styles/ListingDetails.css";
+import { NavigateNext, NavigateBefore } from "@material-ui/icons";
 
 const ListingDetails = (props) => {
   const [listingDetails, setListingDetails] = useState({
@@ -8,7 +9,7 @@ const ListingDetails = (props) => {
     title: "",
     price: "",
     description: "",
-    Images: [{ url_fullxfull: "" }],
+    Images: [{ listing_image_id: "", url_fullxfull: "" }],
   });
   const [imageIndices, setImagesIndices] = useState({
     mainImage: 0,
@@ -166,16 +167,27 @@ const ListingDetails = (props) => {
     }
   };
 
+  const handleClickImage = (e) => {
+    const imageID = parseInt(e.target.id);
+    const [image] = listingDetails.Images.filter(
+      (image) => image.listing_image_id === imageID
+    );
+
+    console.log(imageID);
+
+    const imageIndex = listingDetails.Images.indexOf(image);
+    setImagesIndices((prevState) => {
+      let indices = { ...prevState };
+      indices.mainImage = imageIndex;
+      return indices;
+    });
+  };
+
   return (
     <div id={params.listing_id} className="listing listing-details">
       <div className="images">
         <div className="main-image-container">
-          <input
-            type="button"
-            className="previous"
-            value="<-"
-            onClick={handlePrevious}
-          />
+          <NavigateBefore className="previous" onClick={handlePrevious} />
           <img
             className="main-image"
             src={
@@ -185,50 +197,68 @@ const ListingDetails = (props) => {
             }
             alt="main-plant"
           />
-          <input
-            type="button"
-            className="next"
-            value="->"
-            onClick={handleNext}
-          />
+
+          <NavigateNext className="next" onClick={handleNext} />
         </div>
         <div className="other-images-container">
-          <img
-            className="other-image"
-            src={
-              listingDetails.Images[imageIndices.otherImageOne]
-                ? listingDetails.Images[imageIndices.otherImageOne]
-                    .url_fullxfull
-                : ""
-            }
-            alt="other"
-          />
-          <img
-            className="other-image"
-            src={
-              listingDetails.Images[imageIndices.otherImageTwo]
-                ? listingDetails.Images[imageIndices.otherImageTwo]
-                    .url_fullxfull
-                : ""
-            }
-            alt="other"
-          />
-          <img
-            className="other-image"
-            src={
-              listingDetails.Images[imageIndices.otherImageThree]
-                ? listingDetails.Images[imageIndices.otherImageThree]
-                    .url_fullxfull
-                : ""
-            }
-            alt="other"
-          />
+          {listingDetails.Images[1] ? (
+            <img
+              id={
+                listingDetails.Images[imageIndices.otherImageOne]
+                  .listing_image_id
+              }
+              className="other-image"
+              src={
+                listingDetails.Images[imageIndices.otherImageOne].url_fullxfull
+              }
+              alt="other"
+              onClick={handleClickImage}
+            />
+          ) : (
+            ""
+          )}
+          {listingDetails.Images[2] ? (
+            <img
+              id={
+                listingDetails.Images[imageIndices.otherImageTwo]
+                  .listing_image_id
+              }
+              className="other-image"
+              src={
+                listingDetails.Images[imageIndices.otherImageTwo].url_fullxfull
+              }
+              alt="other"
+              onClick={handleClickImage}
+            />
+          ) : (
+            ""
+          )}
+          {listingDetails.Images[3] ? (
+            <img
+              id={
+                listingDetails.Images[imageIndices.otherImageThree]
+                  .listing_image_id
+              }
+              className="other-image"
+              src={
+                listingDetails.Images[imageIndices.otherImageThree]
+                  .url_fullxfull
+              }
+              alt="other"
+              onClick={handleClickImage}
+            />
+          ) : (
+            ""
+          )}
         </div>
       </div>
       <div className="content">
         <h2 className="title">{listingDetails.title}</h2>
         <h3 className="price">${listingDetails.price}</h3>
-        <div className="description">{listingDetails.description}</div>
+        <div className="description-container">
+          <div className="description-header">Description</div>
+          <div className="description">{listingDetails.description}</div>
+        </div>
         <button className="add-to-cart" onClick={onAddItem}>
           Add to Cart
         </button>
