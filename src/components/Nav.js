@@ -1,8 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "../styles/Nav.css";
+import ShoppingCart from "@material-ui/icons/ShoppingCart";
 
-const Nav = () => {
+const Nav = (props) => {
   const handleToggleCart = () => {
     const shoppingCart = document.querySelector(".shopping-cart");
     shoppingCart.classList.toggle("hidden");
@@ -22,7 +23,12 @@ const Nav = () => {
             <li className="Shop">Shop</li>
           </Link>
           <li className="cart" onClick={handleToggleCart}>
-            Shopping Cart
+            <ShoppingCart />
+            {props.cart.length > 0
+              ? props.cart.reduce((prevValue, currValue) => {
+                  return prevValue + currValue.quantity;
+                }, 0)
+              : ""}
           </li>
         </ul>
       </div>
