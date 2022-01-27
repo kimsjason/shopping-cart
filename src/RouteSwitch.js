@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Nav from "./components/Nav";
 import Home from "./components/Home";
 import Shop from "./components/Shop";
+import Wishlist from "./components/Wishlist";
 import ListingDetails from "./components/ListingDetails";
 import ShoppingCart from "./components/ShoppingCart";
 import "./styles/RouteSwitch.css";
@@ -25,7 +26,13 @@ const RouteSwitch = () => {
 
     if (response.ok) {
       const data = await response.json();
-      const listings = await data.results;
+      const listingData = await data.results;
+
+      // add favorite property to each listing before setting it to state
+      const listings = listingData.map((listing) => {
+        listing.favorite = false;
+        return listing;
+      });
       setListings(listings);
     } else {
       console.log("oops");
@@ -180,8 +187,9 @@ const RouteSwitch = () => {
     setCart(updatedCart);
   };
 
-  const handleSortLowtoHigh = () => {
-    const listingsCopy = [...listings];
+  const handleSortLowtoHigh = (e) => {
+    const sort = e.target.closest(".sort");
+    const listName = sort.nextSibling.className;
     const compare = (a, b) => {
       a = parseInt(a.price);
       b = parseInt(b.price);
@@ -193,12 +201,21 @@ const RouteSwitch = () => {
       }
       return 0;
     };
-    const sortedListings = listingsCopy.sort(compare);
-    setListings(sortedListings);
+    let list;
+    if (listName === "listings") {
+      list = [...listings];
+      const sortedList = list.sort(compare);
+      setListings(sortedList);
+    } else {
+      list = [...wishlist];
+      const sortedList = list.sort(compare);
+      setWishlist(sortedList);
+    }
   };
 
-  const handleSortHightoLow = () => {
-    const listingsCopy = [...listings];
+  const handleSortHightoLow = (e) => {
+    const sort = e.target.closest(".sort");
+    const listName = sort.nextSibling.className;
     const compare = (a, b) => {
       a = parseInt(a.price);
       b = parseInt(b.price);
@@ -210,12 +227,21 @@ const RouteSwitch = () => {
       }
       return 0;
     };
-    const sortedListings = listingsCopy.sort(compare);
-    setListings(sortedListings);
+    let list;
+    if (listName === "listings") {
+      list = [...listings];
+      const sortedList = list.sort(compare);
+      setListings(sortedList);
+    } else {
+      list = [...wishlist];
+      const sortedList = list.sort(compare);
+      setWishlist(sortedList);
+    }
   };
 
-  const handleSortAtoZ = () => {
-    const listingsCopy = [...listings];
+  const handleSortAtoZ = (e) => {
+    const sort = e.target.closest(".sort");
+    const listName = sort.nextSibling.className;
     const compare = (a, b) => {
       if (a.title > b.title) {
         return 1;
@@ -225,12 +251,21 @@ const RouteSwitch = () => {
       }
       return 0;
     };
-    const sortedListings = listingsCopy.sort(compare);
-    setListings(sortedListings);
+    let list;
+    if (listName === "listings") {
+      list = [...listings];
+      const sortedList = list.sort(compare);
+      setListings(sortedList);
+    } else {
+      list = [...wishlist];
+      const sortedList = list.sort(compare);
+      setWishlist(sortedList);
+    }
   };
 
-  const handleSortZtoA = () => {
-    const listingsCopy = [...listings];
+  const handleSortZtoA = (e) => {
+    const sort = e.target.closest(".sort");
+    const listName = sort.nextSibling.className;
     const compare = (a, b) => {
       if (a.title > b.title) {
         return -1;
@@ -240,12 +275,28 @@ const RouteSwitch = () => {
       }
       return 0;
     };
-    const sortedListings = listingsCopy.sort(compare);
-    setListings(sortedListings);
+    let list;
+    if (listName === "listings") {
+      list = [...listings];
+      const sortedList = list.sort(compare);
+      setListings(sortedList);
+    } else {
+      list = [...wishlist];
+      const sortedList = list.sort(compare);
+      setWishlist(sortedList);
+    }
   };
 
   const handleClickFavorite = (e) => {
     const listingID = parseInt(e.target.closest(".listing").id);
+
+    listings.map((listing) => {
+      if (listing.listing_id === listingID) {
+        listing.favorite = true;
+      }
+      return listing;
+    });
+
     const [listing] = listings.filter(
       (listing) => listing.listing_id === listingID
     );
@@ -254,11 +305,18 @@ const RouteSwitch = () => {
     wishlistCopy.push(listing);
 
     setWishlist(wishlistCopy);
-    console.log(wishlist);
+    console.log(wishlistCopy);
   };
 
   const handleUnclickFavorite = (e) => {
     const listingID = parseInt(e.target.closest(".listing").id);
+
+    listings.map((listing) => {
+      if (listing.listing_id === listingID) {
+        listing.favorite = false;
+      }
+      return listing;
+    });
 
     const updatedWishlist = () => {
       return wishlist.filter((item) => {
@@ -292,6 +350,20 @@ const RouteSwitch = () => {
           <Route
             path="/shop/:listing_id"
             element={<ListingDetails onAddItem={handleAddItem} />}
+          />
+          <Route
+            path="/wishlist"
+            element={
+              <Wishlist
+                wishlist={wishlist}
+                onSortLowtoHigh={handleSortLowtoHigh}
+                onSortHightoLow={handleSortHightoLow}
+                onSortAtoZ={handleSortAtoZ}
+                onSortZtoA={handleSortZtoA}
+                onClickFavorite={handleClickFavorite}
+                onUnclickFavorite={handleUnclickFavorite}
+              />
+            }
           />
         </Routes>
       </div>

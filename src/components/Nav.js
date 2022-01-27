@@ -22,6 +22,9 @@ const Nav = (props) => {
           <Link to="/shop">
             <li className="Shop">Shop</li>
           </Link>
+          <Link to="/wishlist">
+            <li className="wishlist">Wishlist</li>
+          </Link>
           <li className="cart" onClick={handleToggleCart}>
             <ShoppingCart />
             {props.cart.length > 0

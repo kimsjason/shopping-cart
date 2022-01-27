@@ -1,4 +1,5 @@
 import "../styles/Shop.css";
+import React from "react";
 import { Link } from "react-router-dom";
 import {
   ExpandMore,
@@ -7,7 +8,7 @@ import {
   Favorite,
 } from "@material-ui/icons";
 
-const Shop = (props) => {
+const Wishlist = (props) => {
   const handleExpandSort = (e) => {
     const sort = e.target.parentElement;
     const sortBy = sort.querySelector(".sort-by");
@@ -90,8 +91,8 @@ const Shop = (props) => {
           </div>
         </div>
       </div>
-      <div className="listings">
-        {props.listings.map((listing) => {
+      <div className="wishlist-items">
+        {props.wishlist.map((listing) => {
           return (
             <div
               id={listing.listing_id}
@@ -133,4 +134,4 @@ const Shop = (props) => {
   );
 };
 
-export default Shop;
+export default Wishlist;
