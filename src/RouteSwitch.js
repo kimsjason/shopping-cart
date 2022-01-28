@@ -21,7 +21,7 @@ const RouteSwitch = () => {
   const fetchListings = async () => {
     const apikey = "vv3qn3iae48c08suyjn5vnvt";
     const response = await fetch(
-      `https://cors-anywhere.herokuapp.com/https://openapi.etsy.com/v2/listings/active?api_key=${apikey}&keywords=variegated_monstera&min_price=100&includes=Images`
+      `https://cors-anywhere.herokuapp.com/https://openapi.etsy.com/v2/listings/active?api_key=${apikey}&keywords=variegated_monstera&min_price=100&includes=Images&limit=100`
     );
 
     if (response.ok) {
@@ -41,6 +41,7 @@ const RouteSwitch = () => {
 
   const handleAddItem = (e) => {
     const listingID = parseInt(e.target.closest(".listing").id);
+    console.log("listing is ", listingID);
     const [listing] = listings.filter(
       (listing) => listing.listing_id === listingID
     );
