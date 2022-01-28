@@ -17,13 +17,13 @@ const Nav = (props) => {
         </Link>
         <ul className="nav-links">
           <Link to="/">
-            <li className="home">Home</li>
+            <li className="home">HOME</li>
           </Link>
           <Link to="/shop">
-            <li className="Shop">Shop</li>
+            <li className="Shop">SHOP</li>
           </Link>
           <Link to="/wishlist">
-            <li className="wishlist">Wishlist</li>
+            <li className="wishlist">WISHLIST</li>
           </Link>
           <li className="cart" onClick={handleToggleCart}>
             <ShoppingCart />
