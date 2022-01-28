@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import "../styles/ShoppingCart.css";
 import Close from "@material-ui/icons/Close";
 
@@ -43,7 +44,9 @@ const ShoppingCart = (props) => {
                     alt="Etsy listing"
                   />
                   <div className="item-info">
-                    <div className="title">{item.title}</div>
+                    <Link to={`/shop/${item.id}`}>
+                      <div className="title">{item.title}</div>
+                    </Link>
                     <div className="price">${item.price}</div>
                     <div className="quantity">
                       <button
@@ -64,9 +67,9 @@ const ShoppingCart = (props) => {
                       >
                         +
                       </button>
-                      <div className="remove-item" onClick={onRemoveItem}>
-                        Remove
-                      </div>
+                    </div>
+                    <div className="remove-item" onClick={onRemoveItem}>
+                      Remove
                     </div>
                   </div>
                 </div>

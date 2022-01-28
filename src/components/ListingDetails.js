@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router";
+import { useLocation, useParams } from "react-router";
 import "../styles/ListingDetails.css";
 import { NavigateNext, NavigateBefore } from "@material-ui/icons";
 import { ReactComponent as EtsyLogo } from "../assets/etsy-logo.svg";
 
 const ListingDetails = (props) => {
+  const params = useParams();
   const [listingDetails, setListingDetails] = useState({
     id: "",
     title: "",
@@ -20,12 +21,11 @@ const ListingDetails = (props) => {
     otherImageThree: 3,
   });
 
-  const params = useParams();
-
+  const location = useLocation();
   // fetch Etsy api data once when component mounts and store in state
   useEffect(() => {
     fetchListingDetails();
-  }, []);
+  }, [location]);
 
   const fetchListingDetails = async () => {
     const apikey = "vv3qn3iae48c08suyjn5vnvt";
@@ -38,7 +38,6 @@ const ListingDetails = (props) => {
       const data = await response.json();
       const [listingDetails] = await data.results;
       setListingDetails(listingDetails);
-      console.log(listingDetails);
     } else {
       console.log("oops");
     }
