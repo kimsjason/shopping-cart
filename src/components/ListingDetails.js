@@ -31,7 +31,7 @@ const ListingDetails = (props) => {
     const apikey = "vv3qn3iae48c08suyjn5vnvt";
     const listing_id = params.listing_id;
     const response = await fetch(
-      `https://cors-anywhere.herokuapp.com/https://openapi.etsy.com/v2/listings/${listing_id}?api_key=${apikey}&includes=Images`
+      `/listings/${listing_id}?api_key=${apikey}&includes=Images`
     );
 
     if (response.ok) {
