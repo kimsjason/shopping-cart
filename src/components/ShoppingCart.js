@@ -44,7 +44,7 @@ const ShoppingCart = (props) => {
                     alt="Etsy listing"
                   />
                   <div className="item-info">
-                    <Link to={`/shop/${item.id}`}>
+                    <Link to={`/shopping-cart/shop/${item.id}`}>
                       <div className="title">{item.title}</div>
                     </Link>
                     <div className="price">${item.price}</div>

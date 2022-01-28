@@ -333,7 +333,7 @@ const RouteSwitch = () => {
       <div className="main">
         <Nav cart={cart} />
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/shopping-cart" element={<Home />} />
           <Route
             path="/shop"
             element={
@@ -349,7 +349,7 @@ const RouteSwitch = () => {
             }
           />
           <Route
-            path="/shop/:listing_id"
+            path="/shopping-cart/shop/:listing_id"
             element={<ListingDetails onAddItem={handleAddItem} />}
           />
           <Route

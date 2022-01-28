@@ -12,17 +12,17 @@ const Nav = (props) => {
   return (
     <nav>
       <div className="flex-wrapper">
-        <Link to="/">
+        <Link to="/shopping-cart">
           <h2 className="logo">The Rare Plant Shop</h2>
         </Link>
         <ul className="nav-links">
-          <Link to="/">
+          <Link to="/shopping-cart">
             <li className="home">HOME</li>
           </Link>
-          <Link to="/shop">
+          <Link to="/shopping-cart/shop">
             <li className="Shop">SHOP</li>
           </Link>
-          <Link to="/wishlist">
+          <Link to="/shopping-cart/wishlist">
             <li className="wishlist">WISHLIST</li>
           </Link>
           <li className="cart" onClick={handleToggleCart}>

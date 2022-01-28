@@ -14,7 +14,7 @@ const Home = () => {
         <div className="hero-content">
           <h1 className="main-logo">The Rare Plant Shop</h1>
           <div className="message"></div>
-          <Link to="/shop">
+          <Link to="/shopping-cart/shop">
             <button className="shop-button">Start Browsing</button>
           </Link>
         </div>

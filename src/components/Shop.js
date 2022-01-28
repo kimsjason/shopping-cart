@@ -99,7 +99,7 @@ const Shop = (props) => {
               className="listing"
             >
               <Link
-                to={`/shop/${listing.listing_id}`}
+                to={`/shopping-cart/shop/${listing.listing_id}`}
                 id={listing.listing_id}
                 key={listing.listing_id}
               >
