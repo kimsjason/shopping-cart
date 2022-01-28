@@ -1,0 +1,17 @@
+{
+  "files": {
+    "main.css": "/shopping-cart/static/css/main.f7284dee.css",
+    "main.js": "/shopping-cart/static/js/main.d8f2365e.js",
+    "static/media/monstera-2.svg": "/shopping-cart/static/media/monstera-2.86c9780bd1fb40cb6a99222ac6959d56.svg",
+    "static/media/monstera-1.svg": "/shopping-cart/static/media/monstera-1.61bb5d3b50f5779a10c5345a79555998.svg",
+    "static/media/Payment-Icons.png": "/shopping-cart/static/media/Payment-Icons.399d394aca02cf986f79.png",
+    "static/media/etsy-logo.svg": "/shopping-cart/static/media/etsy-logo.bce51425ff1d16b8209efa1dc7d36e90.svg",
+    "index.html": "/shopping-cart/index.html",
+    "main.f7284dee.css.map": "/shopping-cart/static/css/main.f7284dee.css.map",
+    "main.d8f2365e.js.map": "/shopping-cart/static/js/main.d8f2365e.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.f7284dee.css",
+    "static/js/main.d8f2365e.js"
+  ]
+}
