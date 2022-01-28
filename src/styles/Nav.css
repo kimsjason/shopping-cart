@@ -1,0 +1,83 @@
+@import url("https://fonts.googleapis.com/css?family=Bungee+Shade&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Noto+Sans&display=swap");
+
+nav {
+  position: sticky;
+  top: 0;
+  border-bottom: 2px solid white;
+  z-index: 2;
+}
+
+.flex-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 75px;
+  padding: 25px;
+  color: white;
+  background-color: #0c3227;
+}
+
+nav a {
+  text-decoration: none;
+}
+
+nav a:visited {
+  color: black;
+}
+
+.logo {
+  font-family: "Bungee Shade";
+  color: white;
+  font-size: 3rem;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+  list-style: none;
+}
+
+.nav-links li {
+  background-color: #0c3227;
+  font-family: "Noto Sans";
+  font-size: 1.5rem;
+  color: white;
+}
+.nav-links a {
+  position: relative;
+}
+
+.nav-links a:before {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  margin-bottom: -5px;
+  background-color: #fff;
+  visibility: hidden;
+  transition: all 0.3s ease-in-out;
+}
+
+.nav-links a:hover:before {
+  visibility: visible;
+  width: 100%;
+}
+
+.nav-links .cart {
+  display: flex;
+  cursor: pointer;
+  font-size: 1em;
+}
+
+.nav-links .cart svg {
+  width: 2.5rem;
+  height: 2.5rem;
+}
+
+.cart:hover {
+  transform: scale(1.1);
+}
