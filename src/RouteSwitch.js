@@ -335,7 +335,7 @@ const RouteSwitch = () => {
         <Routes>
           <Route path="/shopping-cart" element={<Home />} />
           <Route
-            path="/shop"
+            path="/shopping-cart/shop"
             element={
               <Shop
                 listings={listings}
@@ -353,7 +353,7 @@ const RouteSwitch = () => {
             element={<ListingDetails onAddItem={handleAddItem} />}
           />
           <Route
-            path="/wishlist"
+            path="/shopping-cart/wishlist"
             element={
               <Wishlist
                 wishlist={wishlist}
