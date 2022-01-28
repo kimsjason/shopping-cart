@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router";
 import "../styles/ListingDetails.css";
 import { NavigateNext, NavigateBefore } from "@material-ui/icons";
+import { ReactComponent as EtsyLogo } from "../assets/etsy-logo.svg";
 
 const ListingDetails = (props) => {
   const [listingDetails, setListingDetails] = useState({
@@ -10,6 +11,7 @@ const ListingDetails = (props) => {
     price: "",
     description: "",
     Images: [{ listing_image_id: "", url_fullxfull: "" }],
+    url: "",
   });
   const [imageIndices, setImagesIndices] = useState({
     mainImage: 0,
@@ -36,6 +38,7 @@ const ListingDetails = (props) => {
       const data = await response.json();
       const [listingDetails] = await data.results;
       setListingDetails(listingDetails);
+      console.log(listingDetails);
     } else {
       console.log("oops");
     }
@@ -172,9 +175,6 @@ const ListingDetails = (props) => {
     const [image] = listingDetails.Images.filter(
       (image) => image.listing_image_id === imageID
     );
-
-    console.log(imageID);
-
     const imageIndex = listingDetails.Images.indexOf(image);
     setImagesIndices((prevState) => {
       let indices = { ...prevState };
@@ -262,6 +262,12 @@ const ListingDetails = (props) => {
         <button className="add-to-cart" onClick={onAddItem}>
           Add to Cart
         </button>
+        <div className="etsy">
+          PURCHASE ON{" "}
+          <a href={listingDetails.url} target="_blank" rel="noreferrer">
+            <EtsyLogo className="etsy-logo" />
+          </a>
+        </div>
       </div>
     </div>
   );
