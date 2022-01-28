@@ -1,0 +1,140 @@
+.listing-details {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  border: none;
+}
+
+.listing-details .images,
+.listing-details .content {
+  flex: 1;
+  flex-basis: 250px;
+  display: flex;
+  gap: 10px;
+  padding: 25px;
+  background-color: #165b47b9;
+  color: white;
+}
+
+.listing-details .images {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 25px;
+}
+
+.listing-details .main-image-container {
+  display: flex;
+  gap: 25px;
+  align-items: center;
+}
+
+.listing-details .main-image {
+  width: 400px;
+  height: auto;
+  max-height: 600px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+}
+
+.listing-details .main-image:hover {
+  opacity: 1;
+}
+
+.listing-details .other-images-container {
+  display: flex;
+  gap: 10px;
+}
+
+.listing-details .other-image {
+  width: 75px;
+  height: 75px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+}
+
+.listing-details .previous,
+.listing-details .next {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+}
+
+.listing-details .previous:hover,
+.listing-details .next:hover {
+  transform: scale(1.25);
+}
+
+.listing-details .content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  text-align: start;
+  gap: 15px;
+  padding: 0 100px;
+  background-color: #165b47;
+}
+
+.listing-details .title {
+  font-size: 3rem;
+}
+
+.listing-details .price {
+  font-size: 2rem;
+}
+
+.description-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 1.5rem;
+}
+
+.description-header {
+  font-weight: bold;
+}
+.listing-details .description {
+  height: 150px;
+  overflow: scroll;
+}
+
+.listing-details .add-to-cart:hover {
+  background-color: rgb(5, 51, 15);
+  color: white;
+}
+
+.listing-details .add-to-cart:active {
+  border: 1px solid black;
+  box-shadow: 1px 1px 1px;
+}
+
+.listing-details .etsy {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+  width: 100%;
+  font-size: 1.5rem;
+}
+
+.listing-details .etsy-logo {
+  width: 100px;
+  cursor: pointer;
+  background: white;
+  padding: 10px 25px;
+  border-radius: 10px;
+}
+
+.listing-details .etsy-logo:hover {
+  transform: scale(1.1);
+}
+
+.listing-details .etsy-logo:active {
+  border: 1px solid gray;
+  box-shadow: 1px 1px 1px gray;
+}
